@@ -1,0 +1,80 @@
+doctype 5
+html
+  head
+    link(href='/stylesheets/style.css', rel='stylesheet')
+    script(src='min.js')
+    script(src='jwerty.js')
+    script(src='/socket.io/socket.io.js')
+    script
+      // socket.io specific code
+      var socket = io.connect();
+
+      socket.on('connect', function () {
+        $('#chat').addClass('connected');
+      });
+
+      socket.on('announcement', function (msg) {
+        $('#lines').append($('<p>').append($('<em>').text(msg)));
+        $('#lines').get(0).scrollTop = $('#lines').get(0).scrollHeight;
+      });
+
+      socket.on('nicknames', function (nicknames) {
+        $('#nicknames').empty().append($('<span>Online: </span>'));
+        for (var i in nicknames) {
+          $('#nicknames').append($('<b>').text(nicknames[i]));
+        }
+      });
+
+      socket.on('user message', message);
+      socket.on('reconnect', function () {
+        $('#lines').remove();
+        message('System', 'Reconnected to the server');
+      });
+
+      socket.on('reconnecting', function () {
+        message('System', 'Attempting to re-connect to the server');
+      });
+
+      socket.on('error', function (e) {
+        message('System', e ? e : 'A unknown error occurred');
+      });
+
+      function message (from, msg) {
+        $('#lines').append($('<p>').append($('<b>').text(from), $('<br>'), msg));
+        $('#lines').get(0).scrollTop = $('#lines').get(0).scrollHeight;
+      }
+
+      // dom manipulation
+      $(function () {
+  
+        // add for key down
+        jwerty.key('ctrl + enter', function(){
+            message('me', $('#message').val().replace(/\r?\n/g, "<br>\n"));
+            socket.emit('user message', $('#message').val());
+            clear();
+            $('#lines').get(0).scrollTop = $('#lines').get(0).scrollHeight;
+            return false;
+        },this,'#message');
+
+        $('#send-message').submit(function () {
+          message('me', $('#message').val().replace(/\r?\n/g, "<br>\n"));
+          socket.emit('user message', $('#message').val());
+          clear();
+          $('#lines').get(0).scrollTop = $('#lines').get(0).scrollHeight;
+          return false;
+        });
+
+        function clear () {
+          $('#message').val('').focus();
+        };
+      });
+  body
+    #chat
+      #connecting
+        .wrap Connecting to socket.io server
+      #messages
+        #nicknames
+        #lines
+      form#send-message
+        textarea#message
+        button Send
