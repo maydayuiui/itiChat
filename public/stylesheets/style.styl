@@ -1,18 +1,16 @@
 @import 'nib'
 
+body 
+  background rgb(246, 246, 241)
+
 #chat
-  width 90%
   height 100%
-
-#nickname, #messages
-  width 100%
-
-#chat
   position relative
-  left 5%
-  border 1px solid #ccc
+  border 1px solid rgb(236, 236, 231)
+  box-shadow 2px 2px 0px rgba(170, 160, 130, 0.5), 4px 4px 0px rgba(200, 190, 165, 0.5)
+  margin 0px 68px 10px 68px
 
-#nickname, #connecting
+#connecting
   position absolute
   height 410px
   z-index 100
@@ -21,34 +19,37 @@
   background #fff
   text-align center
   width 600px
-  font 15px Georgia
+  font 15px Helvetica,arial,freesans,clean,sans-serif 
   color #666
   display block
   .wrap
     padding-top 150px
 
-#nickname
-  input
-    border 1px solid #ccc
-    padding 10px
-    &:focus
-      border-color #999
-      outline 0
-  #nickname-err
-    color darkred
-    font-size 12px
-    visibility hidden
-
 .connected
   #connecting
     display none
 
-.nickname-set
-  #nickname
-    display none
+#nicknames
+  position fixed
+  top 0px
+  width 100%
+  z-index 100
+  background #ccc
+  padding 2px 4px 4px
+  font 11px Helvetica,arial,freesans,clean,sans-serif
+  span
+    color black
+  b
+    display inline-block
+    color #fff
+    background #999
+    padding 3px 6px
+    margin-right 5px
+    border-radius 10px
+    text-shadow 0 1px 0 #666
 
 #messages
-  height 60%
+  width 100%
   background #eee
   em
     text-shadow 0 1px 0 #fff
@@ -56,29 +57,15 @@
   p
     padding 0
     margin 0
-    font 12px Helvetica, Arial
+    font 14px Helvetica,arial,freesans,clean,sans-serif
+    line-height 1.6em
     padding 5px 10px
     b
       display inline-block
       padding-right 10px
   p:nth-child(even)
     background #fafafa
-  #nicknames
-    background #ccc
-    padding 2px 4px 4px
-    font 11px Helvetica
-    span
-      color black
-    b
-      display inline-block
-      color #fff
-      background #999
-      padding 3px 6px
-      margin-right 5px
-      border-radius 10px
-      text-shadow 0 1px 0 #666
   #lines
-    height 500px
     overflow auto
     overflow-x hidden
     overflow-y auto
@@ -103,15 +90,26 @@
       -webkit-border-radius 3px
 
 #send-message
-  height 300px
-  background #fff
+  height 150px
+  width 100%
   position relative
   textarea
-    background #CCC
-    border none
-    height 300px
-    width 100%
-    line-height 18px
+    border 1px solid rgb(204, 204, 204)
+    border-color rgb(81, 167, 232)
+    box-shadow 0px 1px 2px rgba(0, 0, 0, 0.075) inset, 0px 0px 5px rgba(81, 167, 232, 0.5)
+    max-height 135px
+    min-height 135px
+    padding 5px
+    width 90%
+    margin-left 58px
+    line-height 1.6em
     vertical-align middle
+    resize none
     &:focus
       outline 0
+
+img
+  width 48px
+  position absolute
+  top 5px
+  left 5px 

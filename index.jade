@@ -41,7 +41,7 @@ html
 
       function message (from, msg) {
         $('#lines').append($('<p>').append($('<b>').text(from),'<br>',  msg));
-        $('#lines').get(0).scrollTop = $('#lines').get(0).scrollHeight;
+        $('body').get(0).scrollTop = $('body').get(0).scrollHeight;
       }
 
       // dom manipulation
@@ -56,13 +56,14 @@ html
             message('me', rawMessage);
             socket.emit('user message', rawMessage);
             $('#message').val('').focus();
-            $('#lines').get(0).scrollTop = $('#lines').get(0).scrollHeight;
+            $('body').get(0).scrollTop = $('body').get(0).scrollHeight;
             return false;
         },this,'#message');
 
         // 'alt + enter' to change line in textarea
         jwerty.key('alt + enter', function(){
             $('#message').val($('#message').val() + '\n');
+            $('#message').get(0).scrollTop =  $('#message').get(0).scrollHeight;
         },this,'#message');
         
         function htmlEncode(value){
@@ -71,11 +72,12 @@ html
 
       });
   body
+    #nicknames
     #chat
       #connecting
         .wrap Connecting to socket.io server
       #messages
-        #nicknames
         #lines
       form#send-message
+        img(src='/img/0000.png')
         textarea#message
