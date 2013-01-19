@@ -15,7 +15,10 @@ html
 
       socket.on('announcement', function (msg) {
         $('#lines').append($('<p>').append($('<em>').text(msg)));
-        $('#lines').get(0).scrollTop = $('#lines').get(0).scrollHeight;
+        $('body').get(0).scrollTop = $('body').get(0).scrollHeight;
+        if(document.body.scrollTop == 0){
+            document.documentElement.scrollTop = $('body').get(0).scrollHeight;
+        }
       });
 
       socket.on('nicknames', function (nicknames) {
@@ -42,6 +45,9 @@ html
       function message (from, msg) {
         $('#lines').append($('<p>').append($('<b>').text(from),'<br>',  msg));
         $('body').get(0).scrollTop = $('body').get(0).scrollHeight;
+        if(document.body.scrollTop == 0){
+            document.documentElement.scrollTop = $('body').get(0).scrollHeight;
+        }
       }
 
       // dom manipulation
@@ -49,14 +55,16 @@ html
   
         // enter for send out message
         jwerty.key('enter', function(){
+            if($('#message').val() != ""){
             var rawMessage = htmlEncode($('#message').val());
-            console.log(rawMessage);
-            //var rawMessage = '<pre>' + $('#message').val().replace(/\r?\n/g, "<br>\n") 
-            //var rawMessage = $('#message').val('<pre>' + $('#message').val() + '</pre>').replace(/\r?\n/g, "<br>\n")
             message('me', rawMessage);
             socket.emit('user message', rawMessage);
             $('#message').val('').focus();
             $('body').get(0).scrollTop = $('body').get(0).scrollHeight;
+            if(document.body.scrollTop == 0){
+                document.documentElement.scrollTop = $('body').get(0).scrollHeight;
+            }
+            }
             return false;
         },this,'#message');
 
@@ -79,5 +87,5 @@ html
       #messages
         #lines
       form#send-message
-        img(src='/img/0000.png')
+        img(src='/img/0000.jpg')
         textarea#message
