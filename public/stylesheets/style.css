@@ -11,13 +11,13 @@ body {
 }
 #connecting {
   position: absolute;
-  height: 410px;
+  height: 100%;
   z-index: 100;
   left: 0;
   top: 0;
   background: #fff;
   text-align: center;
-  width: 600px;
+  width: 100%;
   font: 15px Helvetica, arial, freesans, clean, sans-serif;
   color: #666;
   display: block;
@@ -59,18 +59,14 @@ body {
   color: #999;
 }
 #messages p {
-  padding: 0;
-  margin: 0;
   font: 14px Helvetica, arial, freesans, clean, sans-serif;
   line-height: 1.6em;
-  padding: 5px 10px;
+  border: 1px solid #cacaca;
+  margin-left: 53px;
 }
 #messages p b {
   display: inline-block;
   padding-right: 10px;
-}
-#messages p:nth-child(even) {
-  background: #fafafa;
 }
 #messages #lines {
   overflow: auto;
@@ -131,4 +127,15 @@ img {
   position: absolute;
   top: 5px;
   left: 5px;
+}
+.imgLines {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  top: 0;
+  left: 0;
+  float: left;
+}
+.messageBody {
+  min-height: 50px;
 }

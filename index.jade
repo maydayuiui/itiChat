@@ -8,6 +8,7 @@ html
     script
       // socket.io specific code
       var socket = io.connect();
+      var mypic,myname = "";
 
       socket.on('connect', function () {
         $('#chat').addClass('connected');
@@ -27,6 +28,12 @@ html
           $('#nicknames').append($('<b>').text(nicknames[i]));
         }
       });
+ 
+      socket.on('user info',function (pic,username) {
+        mypic = pic;
+        myname = username;
+        $('img').attr("src","/img/"+pic); 
+      });
 
       socket.on('user message', message);
       socket.on('reconnect', function () {
@@ -41,9 +48,15 @@ html
       socket.on('error', function (e) {
         message('System', e ? e : 'A unknown error occurred');
       });
+      
+      socket.on('disconnect',function(){ 
+        document.write("You are denied!!");
+      });
 
-      function message (from, msg) {
-        $('#lines').append($('<p>').append($('<b>').text(from),'<br>',  msg));
+      function message (from, msg, pic) {
+        $('#lines').append($('<div class=messageBody>'));
+        $('#lines div:last-child').append($('<img class=imgLines>').attr("src","/img/"+pic));        
+        $('#lines div:last-child').append($('<p>').append($('<b>').text(from),'<br>',  msg));
         $('body').get(0).scrollTop = $('body').get(0).scrollHeight;
         if(document.body.scrollTop == 0){
             document.documentElement.scrollTop = $('body').get(0).scrollHeight;
@@ -57,8 +70,8 @@ html
         jwerty.key('enter', function(){
             if($('#message').val() != ""){
             var rawMessage = htmlEncode($('#message').val());
-            message('me', rawMessage);
-            socket.emit('user message', rawMessage);
+            message(myname, rawMessage, mypic);
+            socket.emit('user message', rawMessage, mypic);
             $('#message').val('').focus();
             $('body').get(0).scrollTop = $('body').get(0).scrollHeight;
             if(document.body.scrollTop == 0){

@@ -53,7 +53,7 @@ server.listen(3000);
  */
 
 var data = fs.readFileSync('ip.list');
-var iplist = JSON.parse(data);
+var userInfo = JSON.parse(data);
 
 var io = sio.listen(server)
   , nicknames = {};
@@ -61,18 +61,20 @@ var io = sio.listen(server)
 io.sockets.on('connection', function (socket) {
 
   var address = socket.handshake.address.address;
-  if (iplist[address]) {
-    nicknames[address]=iplist[address];
+  if (userInfo[address]) {
+    nicknames[address]=userInfo[address].name;
     socket.emit('nicknames',nicknames);
-    socket.nickname=iplist[address];
+    socket.nickname=userInfo[address].name;
+    socket.pic=userInfo[address].pic;
+    socket.emit('user info',socket.pic,socket.nickname);
     socket.broadcast.emit('announcement', socket.nickname + ' connected');
     socket.broadcast.emit('nicknames', nicknames);
   } else {
     socket.emit('disconnect',function () {});
   }  
 
-  socket.on('user message', function (msg) {
-    socket.broadcast.emit('user message', socket.nickname, msg);
+  socket.on('user message', function (msg,pic) {
+    socket.broadcast.emit('user message', socket.nickname, msg, pic);
   });
 
 /**
