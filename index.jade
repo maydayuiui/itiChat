@@ -1,6 +1,7 @@
 doctype 5
 html
   head
+    title ITI Chat Room
     link(href='/stylesheets/style.css', rel='stylesheet')
     script(src='min.js')
     script(src='jwerty.js')
@@ -9,6 +10,17 @@ html
       // socket.io specific code
       var socket = io.connect();
       var mypic,myname = "";
+      
+      var noReadMessage = 0;
+      var isFocus = true;
+      window.onfocus = function(){
+        isFocus = true;
+        noReadMessage = 0;
+        document.title = 'ITI Chat Room';
+      };
+      window.onblur = function(){
+        isFocus = false;
+      };
 
       socket.on('connect', function () {
         $('#chat').addClass('connected');
@@ -54,9 +66,19 @@ html
       });
 
       function message (from, msg, pic) {
+        // add 1 no read message
+        if ( isFocus == false ){
+          noReadMessage++;
+          document.title = '(' + noReadMessage +')no read message';
+        }
+
+        // add new div which include new message
         $('#lines').append($('<div class=messageBody>'));
         $('#lines div:last-child').append($('<img class=imgLines>').attr("src","/img/"+pic));        
         $('#lines div:last-child').append($('<p>').append($('<b>').text(from),'<br>',  msg));
+        //$('.messageBody').filter(":odd").css("background-color", "rgb(224,224,224)");
+        
+        // make scroll to bottom
         $('body').get(0).scrollTop = $('body').get(0).scrollHeight;
         if(document.body.scrollTop == 0){
             document.documentElement.scrollTop = $('body').get(0).scrollHeight;

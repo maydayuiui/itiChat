@@ -7,7 +7,7 @@ body {
   border: 1px solid #ecece7;
   -webkit-box-shadow: 2px 2px 0px rgba(170,160,130,0.5), 4px 4px 0px rgba(200,190,165,0.5);
   box-shadow: 2px 2px 0px rgba(170,160,130,0.5), 4px 4px 0px rgba(200,190,165,0.5);
-  margin: 0px 68px 10px 68px;
+  margin: 0px 268px 10px 68px;
 }
 #connecting {
   position: absolute;
@@ -61,8 +61,9 @@ body {
 #messages p {
   font: 14px Helvetica, arial, freesans, clean, sans-serif;
   line-height: 1.6em;
-  border: 1px solid #cacaca;
-  margin-left: 53px;
+  margin-left: 58px;
+  margin-top: 0;
+  margin-bottem: 0;
 }
 #messages p b {
   display: inline-block;
@@ -132,10 +133,14 @@ img {
   width: 48px;
   height: 48px;
   position: relative;
-  top: 0;
-  left: 0;
+  top: 5px;
+  left: 5px;
   float: left;
 }
 .messageBody {
-  min-height: 50px;
+  min-height: 60px;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
